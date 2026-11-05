@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velsum | Energia Solar e Instalações no Paraná</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        velsum: {
+                            50: '#FEFCE8',
+                            100: '#FEF9C3',
+                            300: '#FDE047',
+                            400: '#FACC15',
+                            500: '#EAB308', // Amarelo principal da marca
+                            600: '#CA8A04',
+                            700: '#A16207',
+                            dark: '#0A0A0A',
+                            card: '#121212',
+                            cardHover: '#1A1A1A',
+                            border: '#262626'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0A0A0A;
+            color: #F3F4F6;
+        }
+        .glow-yellow {
+            box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.4);
+        }
+        .glow-yellow-sm {
+            box-shadow: 0 0 15px -3px rgba(234, 179, 8, 0.25);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #EAB308;
+        }
+    </style>
+</head>
+<body class="bg-velsum-dark text-gray-100 antialiased selection:bg-velsum-500 selection:text-black">
+
+    <!-- Top Bar / Aviso -->
+    <div class="bg-velsum-500 text-black font-semibold text-xs sm:text-sm py-2 px-4 text-center">
+        <i class="fa-solid fa-bolt mr-2"></i> Frete e Instalação Especializada em todo o Estado do Paraná (PR) | CNPJ: 49.247.718/0001-76
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-velsum-dark/95 backdrop-blur-md border-b border-velsum-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-11 h-11 bg-black border-2 border-velsum-500 rounded-xl flex items-center justify-center glow-yellow-sm group-hover:scale-105 transition-transform">
+                    <!-- Ícone estilizado inspirado na logo Velsum -->
+                    <div class="text-velsum-500 font-black text-xl tracking-tighter flex items-center">
+                        <span class="transform -skew-x-12">V</span><span class="transform -skew-x-12 text-white">E</span>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-wider text-white">VEL<span class="text-velsum-500">SUM</span></span>
+                    <span class="block text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Energy & Solar</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-sm">
+                <a href="#inicio" class="hover:text-velsum-500 transition-colors">Início</a>
+                <a href="#produtos" class="hover:text-velsum-500 transition-colors">Produtos & Kits</a>
+                <a href="#instalacao" class="hover:text-velsum-500 transition-colors">Instalação PR</a>
+                <a href="#calculadora" class="hover:text-velsum-500 transition-colors">Calculadora</a>
+                <a href="#contato" class="hover:text-velsum-500 transition-colors">Contato</a>
+                <a href="https://wa.me/5544920074793" target="_blank" class="text-green-400 hover:text-green-300 transition-colors flex items-center gap-1.5 font-bold">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> (44) 92007-4793
+                </a>
+                <button onclick="abrirModalVendedor()" class="bg-velsum-500/10 border border-velsum-500/40 text-velsum-400 hover:bg-velsum-500 hover:text-black px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-user-tie"></i> Área do Vendedor
+                </button>
+            </nav>
+
+            <!-- Cart Button & Mobile Menu Toggle -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleCarrinho()" class="relative p-2.5 rounded-xl bg-velsum-card border border-velsum-border hover:border-velsum-500 transition-colors">
+                    <i class="fa-solid fa-cart-shopping text-velsum-500 text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-velsum-500 text-black font-extrabold text-[11px] w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-velsum-card border border-velsum-border text-gray-300 hover:text-velsum-500">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-velsum-card border-b border-velsum-border px-6 py-4 space-y-3">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 hover:text-velsum-500 font-medium">Início</a>
+            <a href="#produtos" onclick="toggleMobileMenu()" class="block py-2 hover:text-velsum-500 font-medium">Produtos & Kits</a>
+            <a href="#instalacao" onclick="toggleMobileMenu()" class="block py-2 hover:text-velsum-500 font-medium">Instalação PR</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="block py-2 hover:text-velsum-500 font-medium">Calculadora</a>
+            <a href="#contato" onclick="toggleMobileMenu()" class="block py-2 hover:text-velsum-500 font-medium">Contato</a>
+            <a href="https://wa.me/5544920074793" target="_blank" class="block py-2 text-green-400 font-bold flex items-center gap-2">
+                <i class="fa-brands fa-whatsapp text-lg"></i> (44) 92007-4793
+            </a>
+            <button onclick="toggleMobileMenu(); abrirModalVendedor();" class="w-full text-center bg-velsum-500 text-black font-bold py-2.5 rounded-lg uppercase text-xs tracking-wider mt-2">
+                <i class="fa-solid fa-user-tie mr-1"></i> Área do Vendedor
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 bg-gradient-to-b from-velsum-dark via-[#111] to-velsum-dark border-b border-velsum-border">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#EAB308_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-velsum-500/10 border border-velsum-500/30 px-3.5 py-1.5 rounded-full text-velsum-400 font-semibold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-sun animate-spin text-velsum-500"></i> Revolução Energética no Paraná
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-none text-white">
+                        Gere sua Própria <span class="text-transparent bg-clip-text bg-gradient-to-r from-velsum-400 to-velsum-600">Energia Limpa</span> com Máxima Eficiência
+                    </h1>
+                    <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal">
+                        Placas solares de última geração, inversores de alta performance, baterias inteligentes e serviços completos de instalação profissional em todo o estado do Paraná.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#produtos" class="w-full sm:w-auto bg-velsum-500 hover:bg-velsum-400 text-black font-black px-8 py-4 rounded-xl shadow-lg glow-yellow transition-all text-center uppercase tracking-wider text-sm flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-solar-panel"></i> Ver Catálogo de Produtos
+                        </a>
+                        <a href="#instalacao" class="w-full sm:w-auto bg-velsum-card hover:bg-velsum-border border border-velsum-border text-white font-bold px-8 py-4 rounded-xl transition-all text-center uppercase tracking-wider text-sm flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-screwdriver-wrench text-velsum-500"></i> Agendar Instalação PR
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-velsum-border/60 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <span class="block text-2xl sm:text-3xl font-black text-velsum-400">+1.200</span>
+                            <span class="text-xs text-gray-400 font-medium">Kits Instalados</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl sm:text-3xl font-black text-velsum-400">95%</span>
+                            <span class="text-xs text-gray-400 font-medium">Economia Média</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl sm:text-3xl font-black text-velsum-400">25 Anos</span>
+                            <span class="text-xs text-gray-400 font-medium">Garantia Placas</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-velsum-600 to-velsum-400 rounded-2xl blur-xl opacity-30 animate-pulse"></div>
+                        <div class="relative bg-velsum-card border border-velsum-border p-6 rounded-2xl shadow-2xl">
+                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-velsum-border">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <span class="text-xs text-velsum-400 font-mono font-bold">Velsum System v2.4</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-velsum-500/10 flex items-center justify-center text-velsum-500 font-bold">
+                                            <i class="fa-solid fa-bolt text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold">Geração Instantânea</h4>
+                                            <p class="text-xs text-gray-400">Paraná - PR</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-velsum-400 font-mono font-bold text-sm">4.8 kW/h</span>
+                                </div>
+                                <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-velsum-500/10 flex items-center justify-center text-velsum-500 font-bold">
+                                            <i class="fa-solid fa-shield-halved text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold">Garantia & Suporte</h4>
+                                            <p class="text-xs text-gray-400">Atendimento Técnico Local</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-green-400 font-mono text-xs bg-green-950/50 px-2 py-1 rounded border border-green-800">Ativo</span>
+                                </div>
+                                <div class="p-4 bg-gradient-to-r from-velsum-500/20 to-velsum-600/10 border border-velsum-500/40 rounded-xl text-center">
+                                    <p class="text-xs text-gray-300 font-medium">Orçamento Rápido via WhatsApp ou com nossos Vendedores autorizados.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros e Catálogo de Produtos -->
+    <section id="produtos" class="py-20 bg-velsum-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-velsum-500 font-bold text-xs uppercase tracking-widest bg-velsum-500/10 px-3 py-1 rounded-full border border-velsum-500/20">Loja Oficial Velsum</span>
+                <h2 class="text-3xl sm:text-4xl font-black mt-3 text-white tracking-tight">Nossos Produtos & Kits Solares</h2>
+                <p class="text-gray-400 text-sm sm:text-base mt-2">Equipamentos de alta eficiência testados e aprovados para o clima do Paraná.</p>
+                
+                <!-- Categorias Filter -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <button onclick="filtrarProdutos('todos')" id="btn-cat-todos" class="px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-500 text-black shadow">Todos</button>
+                    <button onclick="filtrarProdutos('placas')" id="btn-cat-placas" class="px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-card text-gray-300 hover:bg-velsum-border">Placas Solares</button>
+                    <button onclick="filtrarProdutos('kits')" id="btn-cat-kits" class="px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-card text-gray-300 hover:bg-velsum-border">Kits Completos</button>
+                    <button onclick="filtrarProdutos('baterias')" id="btn-cat-baterias" class="px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-card text-gray-300 hover:bg-velsum-border">Baterias & Armazenamento</button>
+                    <button onclick="filtrarProdutos('inversores')" id="btn-cat-inversores" class="px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-card text-gray-300 hover:bg-velsum-border">Inversores</button>
+                </div>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Os produtos serão injetados via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Instalação no Paraná -->
+    <section id="instalacao" class="py-20 bg-gradient-to-b from-velsum-dark to-[#121212] border-t border-b border-velsum-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-velsum-500 font-bold text-xs uppercase tracking-widest bg-velsum-500/10 px-3 py-1 rounded-full border border-velsum-500/20">Engenharia e Instalação PR</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Instalação Profissional em Todo o Paraná</h2>
+                    <p class="text-gray-400 text-base">
+                        Nossa equipe técnica própria atende Curitiba, Região Metropolitana, Londrina, Maringá, Cascavel, Ponta Grossa, Foz do Iguaçu e demais cidades paranaenses. Cuidamos de todo o projeto, homologação junto à concessionária (Copel, etc.) e instalação certificada.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-velsum-500/10 border border-velsum-500/30 flex items-center justify-center text-velsum-500 shrink-0 font-bold">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Homologação Completa</h4>
+                                <p class="text-xs text-gray-400 mt-1">Fazemos toda a burocracia junto à distribuidora de energia do PR sem dor de cabeça.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-velsum-500/10 border border-velsum-500/30 flex items-center justify-center text-velsum-500 shrink-0 font-bold">
+                                <i class="fa-solid fa-hard-hat"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Engenheiros Especializados</h4>
+                                <p class="text-xs text-gray-400 mt-1">Profissionais certificados com ART e seguindo rigorosas normas de segurança NR-10 e NR-35.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-velsum-500/10 border border-velsum-500/30 flex items-center justify-center text-velsum-500 shrink-0 font-bold">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Garantia Estendida de Instalação</h4>
+                                <p class="text-xs text-gray-400 mt-1">5 anos de garantia diretamente sobre os serviços de montagem e fixação.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulário de Solicitação de Instalação -->
+                <div class="bg-velsum-card border border-velsum-border p-8 rounded-2xl shadow-xl relative">
+                    <div class="absolute -top-3 right-6 bg-velsum-500 text-black text-[11px] font-black uppercase px-3 py-1 rounded-full">
+                        Atendimento PR
+                    </div>
+                    <h3 class="text-xl font-black mb-2 text-white">Solicitar Orçamento de Instalação</h3>
+                    <p class="text-xs text-gray-400 mb-6">Preencha os dados abaixo e nossa equipe técnica entrará em contato.</p>
+                    
+                    <form onsubmit="enviarOrcamentoInstalacao(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Nome Completo</label>
+                            <input type="text" id="inst-nome" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="Seu nome">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">WhatsApp / Telefone</label>
+                                <input type="text" id="inst-tel" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="(41) 99999-9999">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Cidade no Paraná</label>
+                                <input type="text" id="inst-cidade" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="Ex: Curitiba, Londrina...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Média da Conta de Luz Mensal (R$)</label>
+                            <select id="inst-conta" class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white">
+                                <option value="ate-300">Até R$ 300,00</option>
+                                <option value="300-600">R$ 300 a R$ 600</option>
+                                <option value="600-1200">R$ 600 a R$ 1.200</option>
+                                <option value="mais-1200">Mais de R$ 1.200,00 (Comercial / Residencial Grande)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-velsum-500 hover:bg-velsum-400 text-black font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-all shadow-lg glow-yellow-sm">
+                            Solicitar Visita Técnica Gratuita
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculadora Solar Interativa -->
+    <section id="calculadora" class="py-20 bg-velsum-dark">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-velsum-card border border-velsum-border p-8 sm:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 w-60 h-60 bg-velsum-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <span class="text-velsum-500 font-bold text-xs uppercase tracking-widest bg-velsum-500/10 px-3 py-1 rounded-full border border-velsum-500/20">Simulador Velsum</span>
+                    <h2 class="text-2xl sm:text-3xl font-black mt-3 text-white">Calculadora de Economia Solar</h2>
+                    <p class="text-gray-400 text-sm mt-1">Descubra quanto você pode economizar por ano instalando energia solar no Paraná.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-bold text-gray-200">Qual o valor médio da sua conta de luz mensal?</label>
+                            <span id="valor-conta-display" class="text-velsum-400 font-black text-lg">R$ 500,00</span>
+                        </div>
+                        <input type="range" id="input-conta" min="150" max="3000" step="50" value="500" oninput="calcularEconomia()" class="w-full h-2 bg-velsum-dark rounded-lg appearance-none cursor-pointer accent-velsum-500 border border-velsum-border">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-velsum-border">
+                        <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border text-center">
+                            <span class="block text-xs text-gray-400 uppercase font-semibold">Economia Anual Estimada</span>
+                            <span id="res-economia-anual" class="text-xl sm:text-2xl font-black text-green-400 mt-1 block">R$ 5.700</span>
+                        </div>
+                        <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border text-center">
+                            <span class="block text-xs text-gray-400 uppercase font-semibold">Kit Recomendado</span>
+                            <span id="res-kit" class="text-lg sm:text-xl font-black text-velsum-400 mt-1 block">Kit 4.5 kWp</span>
+                        </div>
+                        <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border text-center">
+                            <span class="block text-xs text-gray-400 uppercase font-semibold">Retorno do Investimento</span>
+                            <span class="text-xl sm:text-2xl font-black text-white mt-1 block">~3 Anos</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <a href="#produtos" class="inline-block bg-velsum-500 hover:bg-velsum-400 text-black font-extrabold px-6 py-3 rounded-xl uppercase text-xs tracking-wider transition-all shadow">
+                            Ver Kits Compatíveis com sua Simulação
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Rodapé -->
+    <footer id="contato" class="bg-velsum-card border-t border-velsum-border pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-black border-2 border-velsum-500 rounded-xl flex items-center justify-center">
+                            <div class="text-velsum-500 font-black text-lg tracking-tighter flex items-center">
+                                <span class="transform -skew-x-12">V</span><span class="transform -skew-x-12 text-white">E</span>
+                            </div>
+                        </div>
+                        <span class="text-2xl font-black text-white tracking-wider">VEL<span class="text-velsum-500">SUM</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Especialistas em energia solar, fornecimento de equipamentos de ponta e instalações profissionais no estado do Paraná.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="https://wa.me/5544920074793" target="_blank" class="w-10 h-10 rounded-xl bg-velsum-dark border border-velsum-border flex items-center justify-center text-green-400 hover:bg-green-500 hover:text-black transition-colors"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-velsum-dark border border-velsum-border flex items-center justify-center text-velsum-400 hover:bg-velsum-500 hover:text-black transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-velsum-dark border border-velsum-border flex items-center justify-center text-velsum-400 hover:bg-velsum-500 hover:text-black transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2.5 text-sm text-gray-400">
+                        <li><a href="#inicio" class="hover:text-velsum-500 transition-colors">Início</a></li>
+                        <li><a href="#produtos" class="hover:text-velsum-500 transition-colors">Produtos e Kits Solares</a></li>
+                        <li><a href="#instalacao" class="hover:text-velsum-500 transition-colors">Serviço de Instalação PR</a></li>
+                        <li><a href="#calculadora" class="hover:text-velsum-500 transition-colors">Calculadora de Economia</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Contato & Suporte</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-velsum-500"></i>
+                            <a href="mailto:Velsunenergy@gmail.com" class="hover:text-white transition-colors">Velsunenergy@gmail.com</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-green-400 text-lg"></i>
+                            <a href="https://wa.me/5544920074793" target="_blank" class="hover:text-white transition-colors font-semibold text-green-400">(44) 92007-4793</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-location-dot text-velsum-500"></i>
+                            <span>Atendimento em todo o Paraná - PR</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Dados da Empresa</h4>
+                    <div class="bg-velsum-dark p-4 rounded-xl border border-velsum-border text-xs text-gray-300 space-y-2 font-mono">
+                        <p><strong class="text-velsum-400">Razão Social:</strong> Velsum Energy</p>
+                        <p><strong class="text-velsum-400">CNPJ:</strong> 49.247.718/0001-76</p>
+                        <p><strong class="text-velsum-400">Setor:</strong> Solar & Instalações</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-velsum-border flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
+                <p>&copy; 2026 Velsum - Todos os direitos reservados. CNPJ: 49.247.718/0001-76</p>
+                <p class="mt-2 sm:mt-0">Desenvolvido com padrão profissional para GitHub Pages</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DO CARRINHO DE COMPRAS -->
+    <div id="carrinho-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex justify-end">
+        <div class="w-full max-w-md bg-velsum-card border-l border-velsum-border h-full flex flex-col p-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-4 border-b border-velsum-border">
+                <h3 class="text-lg font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-velsum-500"></i> Seu Carrinho Velsum
+                </h3>
+                <button onclick="toggleCarrinho()" class="text-gray-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div id="cart-items-container" class="flex-1 overflow-y-auto py-4 space-y-4">
+                <!-- Itens injetados via JS -->
+            </div>
+
+            <div class="pt-4 border-t border-velsum-border space-y-4">
+                <div class="flex justify-between items-center text-lg font-bold">
+                    <span>Total:</span>
+                    <span id="cart-total-price" class="text-velsum-400 font-mono">R$ 0,00</span>
+                </div>
+                <button onclick="finalizarCompra()" class="w-full bg-velsum-500 hover:bg-velsum-400 text-black font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-all shadow-lg glow-yellow-sm">
+                    Finalizar Pedido / Orçamento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LOGIN DO VENDEDOR -->
+    <div id="modal-vendedor-login" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-velsum-card border border-velsum-border w-full max-w-md p-8 rounded-3xl shadow-2xl relative">
+            <button onclick="fecharModalVendedor()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-velsum-500/10 border border-velsum-500/30 rounded-2xl flex items-center justify-center mx-auto text-velsum-500 mb-3 text-xl">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">Área Exclusiva de Vendedores</h3>
+                <p class="text-xs text-gray-400 mt-1">Insira a senha de acesso da equipe Velsum</p>
+            </div>
+            <form onsubmit="fazerLoginVendedor(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Senha de Acesso</label>
+                    <input type="password" id="vendedor-senha" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="Digite a senha (padrão: 1234)">
+                </div>
+                <button type="submit" class="w-full bg-velsum-500 hover:bg-velsum-400 text-black font-black py-3 rounded-xl uppercase text-xs tracking-wider transition-all">
+                    Entrar no Painel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAINEL DO VENDEDOR (Gerenciamento de Cobranças e Vendas) -->
+    <div id="painel-vendedor" class="fixed inset-0 z-50 bg-velsum-dark hidden overflow-y-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex items-center justify-between pb-6 border-b border-velsum-border mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-velsum-500 flex items-center justify-center text-black font-black">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-white">Painel do Vendedor Velsum</h2>
+                        <p class="text-xs text-gray-400">Gerador de Cobranças & Histórico de Vendas</p>
+                    </div>
+                </div>
+                <button onclick="fecharPainelVendedor()" class="bg-velsum-card border border-velsum-border text-gray-300 hover:text-white px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all">
+                    Sair do Painel
+                </button>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div class="bg-velsum-card border border-velsum-border p-6 rounded-2xl">
+                    <span class="text-xs text-gray-400 uppercase font-semibold">Total de Vendas Registradas</span>
+                    <h3 id="stat-total-vendas" class="text-3xl font-black text-white mt-1">R$ 0,00</h3>
+                </div>
+                <div class="bg-velsum-card border border-velsum-border p-6 rounded-2xl">
+                    <span class="text-xs text-gray-400 uppercase font-semibold">Cobranças Geradas</span>
+                    <h3 id="stat-qtd-cobrancas" class="text-3xl font-black text-velsum-400 mt-1">0</h3>
+                </div>
+                <div class="bg-velsum-card border border-velsum-border p-6 rounded-2xl">
+                    <span class="text-xs text-gray-400 uppercase font-semibold">Status do Sistema</span>
+                    <h3 class="text-xl font-black text-green-400 mt-1 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span> Online (PR)
+                    </h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Gerador de Cobranças -->
+                <div class="lg:col-span-5 bg-velsum-card border border-velsum-border p-6 rounded-2xl h-fit">
+                    <h3 class="text-lg font-black text-white mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-file-invoice-dollar text-velsum-500"></i> Gerar Nova Cobrança
+                    </h3>
+                    <p class="text-xs text-gray-400 mb-6">Crie uma cobrança instantânea para enviar ao cliente.</p>
+
+                    <form onsubmit="gerarCobrancaVendedor(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Nome do Cliente</label>
+                            <input type="text" id="cob-cliente" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="Nome completo">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">CPF / CNPJ</label>
+                                <input type="text" id="cob-doc" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="000.000.000-00">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Valor (R$)</label>
+                                <input type="number" step="0.01" id="cob-valor" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="1500.00">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Descrição / Produto / Instalação</label>
+                            <input type="text" id="cob-desc" required class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white" placeholder="Ex: Kit Solar 5kWp + Instalação PR">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Forma de Pagamento</label>
+                            <select id="cob-metodo" class="w-full bg-velsum-dark border border-velsum-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-velsum-500 text-white">
+                                <option value="Pix (Aprovação Instantânea)">Pix (Aprovação Instantânea)</option>
+                                <option value="Cartão de Crédito (Até 12x)">Cartão de Crédito (Até 12x)</option>
+                                <option value="Boleto Bancário">Boleto Bancário</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-velsum-500 hover:bg-velsum-400 text-black font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-all shadow">
+                            Gerar Link de Pagamento / Cobrança
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Histórico de Vendas / Cobranças -->
+                <div class="lg:col-span-7 bg-velsum-card border border-velsum-border p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-lg font-black text-white">Vendas & Cobranças Realizadas</h3>
+                            <p class="text-xs text-gray-400">Acompanhe o status dos pagamentos e pedidos</p>
+                        </div>
+                        <button onclick="limparHistoricoVendas()" class="text-xs text-red-400 hover:text-red-300 underline font-semibold">Limpar Histórico</button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-velsum-dark text-gray-400 text-xs uppercase border-b border-velsum-border">
+                                <tr>
+                                    <th class="p-3">Cliente</th>
+                                    <th class="p-3">Descrição</th>
+                                    <th class="p-3">Valor</th>
+                                    <th class="p-3">Pagamento</th>
+                                    <th class="p-3">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-vendas" class="divide-y divide-velsum-border text-gray-300">
+                                <!-- Dados injetados via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Alerta Customizado (Substitui alert padrão) -->
+    <div id="modal-alerta" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-velsum-card border border-velsum-border w-full max-w-sm p-6 rounded-3xl shadow-2xl text-center space-y-4">
+            <div id="modal-alerta-icon" class="w-14 h-14 bg-velsum-500/10 border border-velsum-500/30 rounded-2xl flex items-center justify-center mx-auto text-velsum-500 text-2xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h4 id="modal-alerta-titulo" class="text-lg font-black text-white">Sucesso!</h4>
+            <p id="modal-alerta-mensagem" class="text-xs text-gray-400">Mensagem informativa aqui.</p>
+            <button onclick="fecharAlerta()" class="w-full bg-velsum-500 hover:bg-velsum-400 text-black font-black py-2.5 rounded-xl uppercase text-xs tracking-wider">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript da Aplicação -->
+    <script>
+        // Banco de Dados de Produtos da Velsum
+        const produtos = [
+            {
+                id: 1,
+                nome: "Painel Solar 550W Monocristalino",
+                categoria: "placas",
+                preco: 780.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Placa+Solar+550W",
+                descricao: "Alta eficiência tier 1, ideal para residências e comércios no Paraná."
+            },
+            {
+                id: 2,
+                nome: "Kit Solar Residencial 4.5 kWp",
+                categoria: "kits",
+                preco: 12490.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Kit+Solar+4.5kWp",
+                descricao: "Kit completo com placas, inversor, cabos e estrutura de fixação."
+            },
+            {
+                id: 3,
+                nome: "Kit Solar Comercial 10 kWp",
+                categoria: "kits",
+                preco: 26800.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Kit+Solar+10kWp",
+                descricao: "Alta potência para empresas e indústrias de médio porte."
+            },
+            {
+                id: 4,
+                nome: "Bateria de Lítio 48V 100Ah Velsum",
+                categoria: "baterias",
+                preco: 7200.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Bateria+Litio+48V",
+                descricao: "Armazenamento avançado de energia para sistemas off-grid e híbridos."
+            },
+            {
+                id: 5,
+                nome: "Bateria Estacionária 240Ah",
+                categoria: "baterias",
+                preco: 2150.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Bateria+Estacionaria",
+                descricao: "Durabilidade estendida e confiabilidade em no-breaks solares."
+            },
+            {
+                id: 6,
+                nome: "Inversor Híbrido 5kW 220V",
+                categoria: "inversores",
+                preco: 5400.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Inversor+Hibrido+5kW",
+                descricao: "Gerenciamento inteligente de energia solar e banco de baterias."
+            },
+            {
+                id: 7,
+                nome: "Painel Solar 600W Bifacial",
+                categoria: "placas",
+                preco: 950.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Placa+Bifacial+600W",
+                descricao: "Geração de energia em ambas as faces para máximo rendimento."
+            },
+            {
+                id: 8,
+                nome: "Inversor On-Grid 3kW",
+                categoria: "inversores",
+                preco: 3100.00,
+                imagem: "https://placehold.co/400x300/141414/EAB308?text=Inversor+On-Grid+3kW",
+                descricao: "Eficiência de conversão superior a 98%, homologado no Brasil."
+            }
+        ];
+
+        let carrinho = [];
+        let vendasVendedor = JSON.parse(localStorage.getItem('velsum_vendas')) || [
+            { id: 1, cliente: "Carlos Alberto da Silva", doc: "123.456.789-00", valor: 12490.00, desc: "Kit Solar Residencial 4.5 kWp + Instalação PR", metodo: "Pix" },
+            { id: 2, cliente: "Mariana Souza", doc: "987.654.321-11", valor: 780.00, desc: "Painel Solar 550W Monocristalino", metodo: "Cartão de Crédito" }
+        ];
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarProdutos(produtos);
+            atualizarBadgeCarrinho();
+            calcularEconomia();
+            atualizarTabelaVendas();
+        });
+
+        // Renderizar Produtos
+        function renderizarProdutos(lista) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            
+            lista.forEach(prod => {
+                grid.innerHTML += `
+                    <div class="bg-velsum-card border border-velsum-border rounded-2xl overflow-hidden flex flex-col justify-between hover:border-velsum-500 transition-all group">
+                        <div>
+                            <div class="relative overflow-hidden bg-velsum-dark h-48">
+                                <img src="${prod.imagem}" alt="${prod.nome}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 bg-velsum-dark/80 backdrop-blur-sm border border-velsum-border text-velsum-400 text-[10px] font-bold uppercase px-2.5 py-1 rounded-lg">
+                                    ${prod.categoria}
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-white text-base mb-1 group-hover:text-velsum-400 transition-colors">${prod.nome}</h3>
+                                <p class="text-xs text-gray-400 line-clamp-2">${prod.descricao}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0 flex items-center justify-between mt-4">
+                            <div>
+                                <span class="text-[10px] text-gray-500 block uppercase">Preço à vista</span>
+                                <span class="text-lg font-black text-velsum-400">R$ ${prod.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                            </div>
+                            <button onclick="adicionarAoCarrinho(${prod.id})" class="bg-velsum-500 hover:bg-velsum-400 text-black font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all shadow">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Filtrar Produtos
+        function filtrarProdutos(cat) {
+            // Atualizar classes dos botões
+            ['todos', 'placas', 'kits', 'baterias', 'inversores'].forEach(c => {
+                const btn = document.getElementById(`btn-cat-${c}`);
+                if(btn) {
+                    if(c === cat) {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-500 text-black shadow";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-velsum-card text-gray-300 hover:bg-velsum-border";
+                    }
+                }
+            });
+
+            if(cat === 'todos') {
+                renderizarProdutos(produtos);
+            } else {
+                const filtrados = produtos.filter(p => p.categoria === cat);
+                renderizarProdutos(filtrados);
+            }
+        }
+
+        // Carrinho
+        function toggleCarrinho() {
+            const modal = document.getElementById('carrinho-modal');
+            modal.classList.toggle('hidden');
+            renderizarItensCarrinho();
+        }
+
+        function adicionarAoCarrinho(id) {
+            const prod = produtos.find(p => p.id === id);
+            const itemExistente = carrinho.find(i => i.id === id);
+            
+            if(itemExistente) {
+                itemExistente.qtd += 1;
+            } else {
+                carrinho.push({...prod, qtd: 1});
+            }
+            
+            atualizarBadgeCarrinho();
+            mostrarAlerta("Produto Adicionado!", `${prod.nome} foi adicionado ao seu carrinho.`, "fa-cart-shopping");
+        }
+
+        function atualizarBadgeCarrinho() {
+            const totalQtd = carrinho.reduce((sum, item) => sum + item.qtd, 0);
+            document.getElementById('cart-badge').innerText = totalQtd;
+        }
+
+        function renderizarItensCarrinho() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+            
+            if(carrinho.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-cart-shopping text-4xl mb-3 text-gray-600"></i>
+                        <p class="text-sm">Seu carrinho está vazio.</p>
+                    </div>
+                `;
+                document.getElementById('cart-total-price').innerText = "R$ 0,00";
+                return;
+            }
+
+            let total = 0;
+            carrinho.forEach(item => {
+                let subtotal = item.preco * item.qtd;
+                total += subtotal;
+                container.innerHTML += `
+                    <div class="bg-velsum-dark border border-velsum-border p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-sm text-white">${item.nome}</h4>
+                            <p class="text-xs text-gray-400">R$ ${item.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2})} x ${item.qtd}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-velsum-400 text-sm">R$ ${subtotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                            <button onclick="removerItemCarrinho(${item.id})" class="text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cart-total-price').innerText = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        }
+
+        function removerItemCarrinho(id) {
+            carrinho = carrinho.filter(i => i.id !== id);
+            atualizarBadgeCarrinho();
+            renderizarItensCarrinho();
+        }
+
+        function finalizarCompra() {
+            if(carrinho.length === 0) {
+                mostrarAlerta("Carrinho Vazio", "Adicione produtos antes de finalizar.", "fa-triangle-exclamation");
+                return;
+            }
+            toggleCarrinho();
+            mostrarAlerta("Pedido Realizado com Sucesso!", "Entraremos em contato via WhatsApp (44) 92007-4793 para concluir o pagamento e agendar a instalação no Paraná.", "fa-circle-check");
+            carrinho = [];
+            atualizarBadgeCarrinho();
+        }
+
+        // Calculadora
+        function calcularEconomia() {
+            const valor = parseInt(document.getElementById('input-conta').value);
+            document.getElementById('valor-conta-display').innerText = `R$ ${valor.toLocaleString('pt-BR')}`;
+            
+            const economiaAnual = Math.round(valor * 12 * 0.95);
+            document.getElementById('res-economia-anual').innerText = `R$ ${economiaAnual.toLocaleString('pt-BR')}`;
+
+            let kitRecomendado = "Kit 3 kWp";
+            if(valor > 400 && valor <= 800) kitRecomendado = "Kit 5.5 kWp";
+            else if(valor > 800 && valor <= 1500) kitRecomendado = "Kit 10 kWp";
+            else if(valor > 1500) kitRecomendado = "Kit Comercial 20+ kWp";
+
+            document.getElementById('res-kit').innerText = kitRecomendado;
+        }
+
+        // Instalação Form
+        function enviarOrcamentoInstalacao(e) {
+            e.preventDefault();
+            const nome = document.getElementById('inst-nome').value;
+            const cidade = document.getElementById('inst-cidade').value;
+            mostrarAlerta("Solicitação Enviada!", `Obrigado ${nome}! Recebemos seu pedido para ${cidade} - PR. Nossa engenharia entrará em contato via WhatsApp (44) 92007-4793 em breve.`, "fa-house-chimney-user");
+            e.target.reset();
+        }
+
+        // Modal Alerta Customizado
+        function mostrarAlerta(titulo, mensagem, icone) {
+            document.getElementById('modal-alerta-titulo').innerText = titulo;
+            document.getElementById('modal-alerta-mensagem').innerText = mensagem;
+            document.getElementById('modal-alerta-icon').innerHTML = `<i class="fa-solid ${icone}"></i>`;
+            document.getElementById('modal-alerta').classList.remove('hidden');
+        }
+
+        function fecharAlerta() {
+            document.getElementById('modal-alerta').classList.add('hidden');
+        }
+
+        // Área do Vendedor
+        function abrirModalVendedor() {
+            document.getElementById('modal-vendedor-login').classList.remove('hidden');
+        }
+
+        function fecharModalVendedor() {
+            document.getElementById('modal-vendedor-login').classList.add('hidden');
+        }
+
+        function fazerLoginVendedor(e) {
+            e.preventDefault();
+            const senha = document.getElementById('vendedor-senha').value;
+            if(senha === '1234' || senha === 'velsum2026') {
+                fecharModalVendedor();
+                document.getElementById('vendedor-senha').value = '';
+                document.getElementById('painel-vendedor').classList.remove('hidden');
+                atualizarTabelaVendas();
+            } else {
+                mostrarAlerta("Senha Incorreta", "A senha padrão para demonstração é 1234.", "fa-key");
+            }
+        }
+
+        function fecharPainelVendedor() {
+            document.getElementById('painel-vendedor').classList.add('hidden');
+        }
+
+        function gerarCobrancaVendedor(e) {
+            e.preventDefault();
+            const cliente = document.getElementById('cob-cliente').value;
+            const doc = document.getElementById('cob-doc').value;
+            const valor = parseFloat(document.getElementById('cob-valor').value);
+            const desc = document.getElementById('cob-desc').value;
+            const metodo = document.getElementById('cob-metodo').value;
+
+            const novaVenda = {
+                id: Date.now(),
+                cliente,
+                doc,
+                valor,
+                desc,
+                metodo
+            };
+
+            vendasVendedor.unshift(novaVenda);
+            localStorage.setItem('velsum_vendas', JSON.stringify(vendasVendedor));
+            atualizarTabelaVendas();
+            e.target.reset();
+            mostrarAlerta("Cobrança Gerada!", `Cobrança de R$ ${valor.toFixed(2)} gerada com sucesso para ${cliente}.`, "fa-file-invoice-dollar");
+        }
+
+        function atualizarTabelaVendas() {
+            const tbody = document.getElementById('tabela-vendas');
+            tbody.innerHTML = '';
+            
+            let totalVendido = 0;
+            vendasVendedor.forEach(v => {
+                totalVendido += v.valor;
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-3">
+                            <span class="font-bold text-white block">${v.cliente}</span>
+                            <span class="text-xs text-gray-500">${v.doc}</span>
+                        </td>
+                        <td class="p-3 text-xs text-gray-300">${v.desc}</td>
+                        <td class="p-3 font-mono font-bold text-velsum-400">R$ ${v.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="p-3"><span class="text-xs bg-velsum-500/10 text-velsum-400 px-2.5 py-1 rounded border border-velsum-500/20">${v.metodo}</span></td>
+                        <td class="p-3">
+                            <button onclick="copiarLinkCobranca('${v.cliente}', ${v.valor})" class="text-xs bg-velsum-card border border-velsum-border hover:border-velsum-500 text-gray-300 hover:text-white px-3 py-1.5 rounded-lg transition-all">
+                                <i class="fa-solid fa-copy mr-1"></i> Copiar Link
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('stat-total-vendas').innerText = `R$ ${totalVendido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('stat-qtd-cobrancas').innerText = vendasVendedor.length;
+        }
+
+        function copiarLinkCobranca(cliente, valor) {
+            const linkSimulado = `https://velsum.com.br/pay?client=${encodeURIComponent(cliente)}&val=${valor}`;
+            document.execCommand('copy'); // Fallback seguro
+            navigator.clipboard.writeText(linkSimulado).catch(() => {});
+            mostrarAlerta("Link Copiado!", `Link de pagamento para ${cliente} (R$ ${valor.toFixed(2)}) copiado para a área de transferência.`, "fa-link");
+        }
+
+        function limparHistoricoVendas() {
+            vendasVendedor = [];
+            localStorage.removeItem('velsum_vendas');
+            atualizarTabelaVendas();
+        }
+
+        // Menu Mobile Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
